@@ -41,6 +41,7 @@ import net.runelite.client.events.SessionOpen;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.PluginPanel;
+import net.runelite.client.ui.components.IconTextField;
 import net.runelite.client.util.ImageUtil;
 import net.runelite.client.util.LinkBrowser;
 import net.runelite.client.util.SwingUtil;
@@ -76,6 +77,10 @@ public class BestInSlotPanel extends PluginPanel
     //private static final ImageIcon DISCORD_ICON;
     private static final ImageIcon GITHUB_ICON;
     //private static final ImageIcon PATREON_ICON;
+
+    private final IconTextField searchBar = new IconTextField();
+
+    private JPanel searchBISPanel;
 
     static
     {
@@ -129,25 +134,48 @@ public class BestInSlotPanel extends PluginPanel
 
         titlePanel.add(viewControls, BorderLayout.EAST);
 
-        JLabel questsCompletedLabel = new JLabel();
-        questsCompletedLabel.setForeground(Color.GRAY);
-        questsCompletedLabel.setText("<html><body style='text-align:left'>Please log in to see available quests" +
-                ".</body></html>");
+        /* Search bar */
+        searchBar.setIcon(IconTextField.Icon.SEARCH);
+        searchBar.setPreferredSize(new Dimension(PluginPanel.PANEL_WIDTH - 20, 30));
+        searchBar.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+        searchBar.setHoverBackgroundColor(ColorScheme.DARK_GRAY_HOVER_COLOR);
+        searchBar.getDocument().addDocumentListener(new DocumentListener()
+        {
+            @Override
+            public void insertUpdate(DocumentEvent e)
+            {
+                onSearchBarChanged();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e)
+            {
+                onSearchBarChanged();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e)
+            {
+                onSearchBarChanged();
+            }
+        });
+
+        searchBISPanel = new JPanel();
+        searchBISPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        searchBISPanel.setLayout(new BorderLayout(0, BORDER_OFFSET));
+        searchBISPanel.add(searchBar, BorderLayout.CENTER);
+
 
         JPanel introDetailsPanel = new JPanel();
         introDetailsPanel.setLayout(new BorderLayout());
         introDetailsPanel.add(titlePanel, BorderLayout.NORTH);
-        introDetailsPanel.add(questsCompletedLabel, BorderLayout.SOUTH);
+        introDetailsPanel.add(searchBISPanel, BorderLayout.CENTER);
 
         add(introDetailsPanel, BorderLayout.NORTH);
     }
 
-
-
-
-
-
-
+    private void onSearchBarChanged() {
+    }
 
 
 }
