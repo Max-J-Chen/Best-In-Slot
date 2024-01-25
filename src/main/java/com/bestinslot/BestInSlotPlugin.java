@@ -11,6 +11,11 @@ import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.ui.ClientToolbar;
+import net.runelite.client.ui.NavigationButton;
+import net.runelite.client.util.ImageUtil;
+
+import java.awt.image.BufferedImage;
 
 @Slf4j
 @PluginDescriptor(
@@ -24,16 +29,34 @@ public class BestInSlotPlugin extends Plugin
 	@Inject
 	private BestInSlotConfig config;
 
+	@Inject
+	private ClientToolbar clientToolbar;
+
+	private BestInSlotPanel panel;
+
+	private NavigationButton navButton;
+
 	@Override
 	protected void startUp() throws Exception
 	{
-		log.info("Best In Slot started!");
+		this.panel = new BestInSlotPanel();
+		final BufferedImage icon = ImageUtil.loadImageResource(getClass(), "/bestinslot_icon.png");
+
+		navButton = NavigationButton.builder()
+				.tooltip("Best In Slot")
+				.icon(icon)
+				.priority(8)
+				.panel(panel)
+				.build();
+
+		clientToolbar.addNavigation(navButton);
+
 	}
 
 	@Override
 	protected void shutDown() throws Exception
 	{
-		log.info("Best In Slot stopped!");
+
 	}
 
 	@Subscribe
