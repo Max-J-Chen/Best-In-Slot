@@ -36,12 +36,18 @@ public class WikiScraper
             }
 
             doc = Jsoup.parse(res);
-            Elements tableHeaders = doc.select("a[href='#']");
+
+            Elements tableHeaders = doc.select("table.wikitable td");
             EquipmentSection currentSection = new EquipmentSection();
             EquipmentTableSection currentTable = new EquipmentTableSection();
 
+//            System.out.print(doc);
+
+            System.out.println(tableHeaders);
+
             for(Element tableHeader : tableHeaders) {
-                System.out.println("tableHeader: " + tableHeader.data());
+                System.out.println("tableHeader: " + tableHeader.text());
+                System.out.println("_____________________________________________________");
             }
         });
     }
