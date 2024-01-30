@@ -1,75 +1,26 @@
-package com.bestinslot;
+package com.bestinslot.panel;
 
 import com.bestinslot.tools.Icon;
-import com.google.common.base.MoreObjects;
-import com.google.inject.Inject;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.util.concurrent.ScheduledExecutorService;
-import javax.annotation.Nullable;
-import javax.inject.Named;
-import javax.swing.Box;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.plaf.basic.BasicButtonUI;
-import net.runelite.api.Client;
-import net.runelite.client.RuneLiteProperties;
-import net.runelite.client.account.SessionManager;
-import net.runelite.client.eventbus.EventBus;
-import net.runelite.client.eventbus.Subscribe;
-import net.runelite.client.events.SessionClose;
-import net.runelite.client.events.SessionOpen;
+
 import net.runelite.client.ui.ColorScheme;
-import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.IconTextField;
 import net.runelite.client.util.ImageUtil;
 import net.runelite.client.util.LinkBrowser;
 import net.runelite.client.util.SwingUtil;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.event.ItemEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.plaf.basic.BasicButtonUI;
-import javax.swing.JPanel;
+
 
 public class BestInSlotPanel extends PluginPanel
 {
@@ -80,7 +31,12 @@ public class BestInSlotPanel extends PluginPanel
 
     private final IconTextField searchBar = new IconTextField();
 
-    private JPanel searchBISPanel;
+    private final FixedWidthPanel selectableListPanel = new FixedWidthPanel();
+    private final FixedWidthPanel listPanelWrapper = new FixedWidthPanel();
+
+    private JPanel searchPanel;
+    private final JScrollPane scrollPane;
+//    private final JPanel selectablePanelsContainer;
 
     static
     {
@@ -160,21 +116,75 @@ public class BestInSlotPanel extends PluginPanel
             }
         });
 
-        searchBISPanel = new JPanel();
-        searchBISPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        searchBISPanel.setLayout(new BorderLayout(0, BORDER_OFFSET));
-        searchBISPanel.add(searchBar, BorderLayout.CENTER);
+        searchPanel = new JPanel();
+        searchPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        searchPanel.setLayout(new BorderLayout(0, BORDER_OFFSET));
+        searchPanel.add(searchBar, BorderLayout.CENTER);
+
+        /* Selectable Panels Container*/
+        selectableListPanel.setBorder(new EmptyBorder(8, 10, 0, 10));
+        selectableListPanel.setLayout(new DynamicPaddedGridLayout(0, 1, 0, 5));
+        selectableListPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+//        showMatchingQuests("");
+
+        listPanelWrapper.setLayout(new BorderLayout());
+        listPanelWrapper.add(selectableListPanel, BorderLayout.NORTH);
+
+        scrollPane = new JScrollPane(listPanelWrapper);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        /* Adding Selectable Panels */
+        for (int i = 0; i < 50; i++) {
+            selectableListPanel.add(createSelectablePanel("Panel " + i));
+        }
+
+
+        /* Boss tabs */
+//        bossListPanel.setBorder(new EmptyBorder(8, 10, 0, 10));
+//        bossListPanel.setLayout(new DynamicPaddedGridLayout(0, 1, 0, 5));
+//        bossListPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+//        showMatchingQuests("");
 
 
         JPanel introDetailsPanel = new JPanel();
         introDetailsPanel.setLayout(new BorderLayout());
         introDetailsPanel.add(titlePanel, BorderLayout.NORTH);
-        introDetailsPanel.add(searchBISPanel, BorderLayout.CENTER);
+        introDetailsPanel.add(searchPanel, BorderLayout.CENTER);
 
         add(introDetailsPanel, BorderLayout.NORTH);
+        add(scrollPane, BorderLayout.CENTER);
     }
 
     private void onSearchBarChanged() {
+    }
+
+    private JPanel createSelectablePanel(String text) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout(3, 3));
+        panel.setPreferredSize(new Dimension(PluginPanel.PANEL_WIDTH, 30));
+        panel.setBackground(ColorScheme.DARK_GRAY_COLOR);
+        panel.setBorder(new EmptyBorder(5, 15, 5, 5));
+        panel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                // Handle panel selection
+            }
+
+            public void mouseEntered(java.awt.event.MouseEvent evt)
+            {
+                panel.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt)
+            {
+                panel.setBackground(ColorScheme.DARK_GRAY_COLOR);
+            }
+        });
+
+        JLabel label = new JLabel(text);
+        label.setForeground(Color.WHITE);
+        panel.add(label, BorderLayout.CENTER);
+
+        return panel;
     }
 
 
