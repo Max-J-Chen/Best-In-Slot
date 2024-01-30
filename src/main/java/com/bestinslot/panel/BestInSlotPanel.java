@@ -36,7 +36,8 @@ public class BestInSlotPanel extends PluginPanel
 
     private JPanel searchPanel;
     private final JScrollPane scrollPane;
-//    private final JPanel selectablePanelsContainer;
+    private final FixedWidthPanel questOverviewWrapper = new FixedWidthPanel();
+    private final QuestOverviewPanel questOverviewPanel;
 
     static
     {
@@ -122,7 +123,7 @@ public class BestInSlotPanel extends PluginPanel
         searchPanel.add(searchBar, BorderLayout.CENTER);
 
         /* Selectable Panels Container*/
-        selectableListPanel.setBorder(new EmptyBorder(8, 10, 0, 10));
+        selectableListPanel.setBorder(new EmptyBorder(0, 10, 0, 10));
         selectableListPanel.setLayout(new DynamicPaddedGridLayout(0, 1, 0, 5));
         selectableListPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 //        showMatchingQuests("");
@@ -135,7 +136,7 @@ public class BestInSlotPanel extends PluginPanel
 
         /* Adding Selectable Panels */
         for (int i = 0; i < 50; i++) {
-            selectableListPanel.add(createSelectablePanel("Panel " + i));
+            selectableListPanel.add(new BestInSlotSelectPanel(this, "Panel " + i));
         }
 
 
@@ -153,38 +154,41 @@ public class BestInSlotPanel extends PluginPanel
 
         add(introDetailsPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
+
+
+        /* Layout */
+        questOverviewPanel = new QuestOverviewPanel(this);
+
+        questOverviewWrapper.setLayout(new BorderLayout());
+        questOverviewWrapper.add(questOverviewPanel, BorderLayout.NORTH);
+
+
     }
 
     private void onSearchBarChanged() {
     }
 
-    private JPanel createSelectablePanel(String text) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout(3, 3));
-        panel.setPreferredSize(new Dimension(PluginPanel.PANEL_WIDTH, 30));
-        panel.setBackground(ColorScheme.DARK_GRAY_COLOR);
-        panel.setBorder(new EmptyBorder(5, 15, 5, 5));
-        panel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                // Handle panel selection
-            }
+    public void emptyBar()
+    {
+        searchBar.setText("");
+    }
 
-            public void mouseEntered(java.awt.event.MouseEvent evt)
-            {
-                panel.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
-            }
+    public void addQuest()
+    {
+//        allDropdownSections.setVisible(false);
+        scrollPane.setViewportView(questOverviewWrapper);
+        searchPanel.setVisible(false);
 
-            public void mouseExited(java.awt.event.MouseEvent evt)
-            {
-                panel.setBackground(ColorScheme.DARK_GRAY_COLOR);
-            }
-        });
+        repaint();
+        revalidate();
+    }
 
-        JLabel label = new JLabel(text);
-        label.setForeground(Color.WHITE);
-        panel.add(label, BorderLayout.CENTER);
-
-        return panel;
+    public void removeQuest()
+    {
+        searchPanel.setVisible(true);
+        scrollPane.setViewportView(listPanelWrapper);
+        repaint();
+        revalidate();
     }
 
 
