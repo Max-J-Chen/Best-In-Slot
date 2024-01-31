@@ -10,7 +10,8 @@ public class EquipmentTableSection
 
     public EquipmentTableSection() {}
 
-    public EquipmentTableSection(String title, Map<String, EquipmentSection[]> table) {
+    public EquipmentTableSection(String title, Map<String, EquipmentSection[]> table)
+    {
         this.Title = title;
         this.Table = table;
     }

@@ -37,18 +37,41 @@ public class WikiScraper
 
             doc = Jsoup.parse(res);
 
-            Elements tableHeaders = doc.select("table.wikitable td");
+            Elements tables = doc.select("div.tabbertab");
+
+            for (Element tab: tables) {
+                String tabHeader = tab.attr("data-title");
+                Elements rows = tab.select("tr");
+
+                for (Element row : rows) {
+                    Elements entries = row.select("td a[title]");
+                    System.out.println("Row has " + entries.text().length() + " elements");
+
+                    EquipmentSection[] itemRow = new EquipmentSection[entries.size()];
+
+                    for (Element item: entries) {
+
+
+
+                    }
+
+                    System.out.println(entries.text());
+
+                }
+
+
+                System.out.println("________________________");
+
+            }
+
+
             EquipmentSection currentSection = new EquipmentSection();
             EquipmentTableSection currentTable = new EquipmentTableSection();
 
-//            System.out.print(doc);
+            System.out.println("\n_____________________________________________________\n");
 
-            System.out.println(tableHeaders);
+            System.out.println(tables.get(0));
 
-            for(Element tableHeader : tableHeaders) {
-                System.out.println("tableHeader: " + tableHeader.text());
-                System.out.println("_____________________________________________________");
-            }
         });
     }
 
