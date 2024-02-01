@@ -1,19 +1,19 @@
 package com.bestinslot.osrswiki;
 
-public class EquipmentSection
+public class EquipmentItem
 {
     private String imageUrl;
     private String name;
 
-    public EquipmentSection() {}
+    public EquipmentItem() {}
 
-    public EquipmentSection(String imageUrl, String name)
+    public EquipmentItem(String imageUrl, String name)
     {
         this.imageUrl = imageUrl;
         this.name = name;
     }
 
-    public EquipmentSection(String name)
+    public EquipmentItem(String name)
     {
         this.name = name;
         this.imageUrl = null;

@@ -21,7 +21,7 @@ public class QuestOverviewPanel extends JPanel
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
 //                bestInSlotPanel.removeQuest();
-                System.out.printf("licked the doorknob");
+                System.out.println("licked the doorknob");
                 WikiScraper.GetEquipmentByBossName("Skotizo");
 
             }
