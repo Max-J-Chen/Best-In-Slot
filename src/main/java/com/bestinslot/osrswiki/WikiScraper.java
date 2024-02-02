@@ -30,7 +30,7 @@ public class WikiScraper
         String url = GetWikiUrlForEquipment(bossName);
 
         ScrapeWikiPageAsync(url).whenCompleteAsync((res, ex) -> {
-            List<EquipmentTableTab> activityStrategies = new ArrayList<>();
+            List<EquipmentTableTab> activityStrategies = new ArrayList<>();     // Each activity has same number of strategies as tabs
 
             if (ex != null) {
                 EquipmentTableTab[] result = new EquipmentTableTab[0];
@@ -39,9 +39,9 @@ public class WikiScraper
 
             doc = Jsoup.parse(res);
 
-            Elements tabTables = doc.select("div.tabbertab");
+            Elements tabs = doc.select("div.tabbertab");   // Each tab has two tables
 
-            for (Element tab: tabTables) {
+            for (Element tab: tabs) {
                 Elements innerTables = tab.select("table");
 
                 String tabHeader = tab.attr("data-title");
