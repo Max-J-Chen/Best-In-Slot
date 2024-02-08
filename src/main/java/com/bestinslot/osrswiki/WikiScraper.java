@@ -24,15 +24,16 @@ public class WikiScraper
 
     private static Document doc;
 
-    public static /*CompletableFuture<List<Activity>>*/ void GetEquipmentByBossName(String bossName)
+    // TODO: See if this broke
+    public static List<Activity> GetEquipmentByBossName(String bossName)
     {
         CompletableFuture<EquipmentTableTab[]> equipmentTables = new CompletableFuture<>();
         String url = GetWikiUrlForEquipment(bossName);
         System.out.println("url: " + url);
 
-        ScrapeWikiPageAsync(url).whenCompleteAsync((res, ex) -> {
-            List<Activity> tableSections = new ArrayList<>();
+        List<Activity> tableSections = new ArrayList<>();
 
+        ScrapeWikiPageAsync(url).whenCompleteAsync((res, ex) -> {
             if (ex != null) {
                 EquipmentTableTab[] result = new EquipmentTableTab[0];
                 equipmentTables.complete(result);

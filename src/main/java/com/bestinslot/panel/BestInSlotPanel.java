@@ -22,6 +22,7 @@ import net.runelite.client.util.SwingUtil;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
