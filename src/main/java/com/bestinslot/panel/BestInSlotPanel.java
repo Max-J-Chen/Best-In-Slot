@@ -1,5 +1,6 @@
 package com.bestinslot.panel;
 
+import com.bestinslot.osrswiki.WikiScraper;
 import com.bestinslot.tools.Icon;
 
 import java.awt.BorderLayout;
@@ -20,6 +21,9 @@ import net.runelite.client.util.SwingUtil;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 public class BestInSlotPanel extends PluginPanel
@@ -36,8 +40,8 @@ public class BestInSlotPanel extends PluginPanel
 
     private JPanel searchPanel;
     private final JScrollPane scrollPane;
-    private final FixedWidthPanel questOverviewWrapper = new FixedWidthPanel();
-    private final QuestOverviewPanel questOverviewPanel;
+    private final FixedWidthPanel loadoutOverviewWrapper = new FixedWidthPanel();
+    private final ActivityPanel activityPanel;
 
     static
     {
@@ -135,10 +139,10 @@ public class BestInSlotPanel extends PluginPanel
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         /* Adding Selectable Panels */
-        for (int i = 0; i < 50; i++) {
-            selectableListPanel.add(new BestInSlotSelectPanel(this, "Panel " + i));
-        }
+        List<String> bossNames = WikiScraper.ScrapeWikiForBosses();
 
+        bossNames.forEach(name ->
+                selectableListPanel.add(new BestInSlotSelectPanel(this, name, Collections.emptyList())));
 
         /* Boss tabs */
 //        bossListPanel.setBorder(new EmptyBorder(8, 10, 0, 10));
@@ -157,10 +161,10 @@ public class BestInSlotPanel extends PluginPanel
 
 
         /* Layout */
-        questOverviewPanel = new QuestOverviewPanel(this);
+        activityPanel = new ActivityPanel(this);
 
-        questOverviewWrapper.setLayout(new BorderLayout());
-        questOverviewWrapper.add(questOverviewPanel, BorderLayout.NORTH);
+        loadoutOverviewWrapper.setLayout(new BorderLayout());
+        loadoutOverviewWrapper.add(activityPanel, BorderLayout.NORTH);
 
 
     }
@@ -176,9 +180,9 @@ public class BestInSlotPanel extends PluginPanel
     public void addQuest(String bossName)
     {
 //        allDropdownSections.setVisible(false);
-
-        questOverviewPanel.updateOverviewPanel(bossName);
-        scrollPane.setViewportView(questOverviewWrapper);
+        WikiScraper.GetEquipmentByBossName(bossName);
+        activityPanel.updateOverviewPanel(bossName);
+        scrollPane.setViewportView(loadoutOverviewWrapper);
         searchPanel.setVisible(false);
 
         repaint();

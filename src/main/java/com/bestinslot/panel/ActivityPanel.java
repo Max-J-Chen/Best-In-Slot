@@ -5,13 +5,13 @@ import com.bestinslot.osrswiki.WikiScraper;
 import javax.swing.*;
 import java.awt.*;
 
-public class QuestOverviewPanel extends JPanel
+public class ActivityPanel extends JPanel
 {
 
     JLabel label;
     BestInSlotPanel bestInSlotPanel;
 
-    public QuestOverviewPanel(BestInSlotPanel bestInSlotPanel)
+    public ActivityPanel(BestInSlotPanel bestInSlotPanel)
     {
         super();
 
