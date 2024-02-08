@@ -1,17 +1,16 @@
 package com.bestinslot.panel;
 
-import com.bestinslot.osrswiki.EquipmentTableTab;
+import com.bestinslot.osrswiki.LoadOut;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.PluginPanel;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.List;
 
 public class BestInSlotSelectPanel extends JPanel
 {
-    public BestInSlotSelectPanel(BestInSlotPanel bestInSlotPanel, String bossName, List<EquipmentTableTab> loadouts)
+    public BestInSlotSelectPanel(BestInSlotPanel bestInSlotPanel, String bossName, List<LoadOut> loadouts)
     {
 
         setLayout(new BorderLayout(3, 0));

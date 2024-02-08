@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import com.bestinslot.utils.Constants;
 import net.runelite.http.api.RuneLiteAPI;
@@ -27,7 +25,7 @@ public class WikiScraper
     // TODO: See if this broke
     public static List<Activity> GetEquipmentByBossName(String bossName)
     {
-        CompletableFuture<EquipmentTableTab[]> equipmentTables = new CompletableFuture<>();
+        CompletableFuture<LoadOut[]> equipmentTables = new CompletableFuture<>();
         String url = GetWikiUrlForEquipment(bossName);
         System.out.println("url: " + url);
 
@@ -35,7 +33,7 @@ public class WikiScraper
 
         ScrapeWikiPageAsync(url).whenCompleteAsync((res, ex) -> {
             if (ex != null) {
-                EquipmentTableTab[] result = new EquipmentTableTab[0];
+                LoadOut[] result = new LoadOut[0];
                 equipmentTables.complete(result);
             }
 
@@ -45,7 +43,7 @@ public class WikiScraper
 
             Elements tableHeaders = doc.select("a[href='#']");
             EquipmentItem currentSection = new EquipmentItem();
-            EquipmentTableTab currentTable = new EquipmentTableTab();
+            LoadOut currentTable = new LoadOut();
 
             for(Element tableHeader : tableHeaders) {
                 System.out.println("tableHeader: " + tableHeader.data());
