@@ -14,7 +14,7 @@ public class BestInSlotSelectPanel extends JPanel{
         setBackground(ColorScheme.DARK_GRAY_COLOR);
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bestInSlotPanel.addQuest();
+                bestInSlotPanel.addQuest(text);
                 setBackground(ColorScheme.DARK_GRAY_COLOR);
             }
 

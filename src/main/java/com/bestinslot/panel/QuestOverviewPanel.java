@@ -11,10 +11,13 @@ import java.awt.*;
 
 public class QuestOverviewPanel extends JPanel
 {
+
+    JLabel label;
+
     public QuestOverviewPanel(BestInSlotPanel bestInSlotPanel)
     {
         super();
-        JLabel label = new JLabel("test");
+        label = new JLabel("test");
         label.setForeground(Color.WHITE);
         add(label, BorderLayout.CENTER);
 
@@ -33,6 +36,14 @@ public class QuestOverviewPanel extends JPanel
 
 
     }
+
+    public void changeLabel(String bossName)
+    {
+        label.setText(bossName);
+        label.repaint();
+        label.revalidate();
+    }
+
 
 
 }

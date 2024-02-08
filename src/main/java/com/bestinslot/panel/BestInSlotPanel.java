@@ -173,9 +173,11 @@ public class BestInSlotPanel extends PluginPanel
         searchBar.setText("");
     }
 
-    public void addQuest()
+    public void addQuest(String bossName)
     {
 //        allDropdownSections.setVisible(false);
+
+        questOverviewPanel.changeLabel(bossName);
         scrollPane.setViewportView(questOverviewWrapper);
         searchPanel.setVisible(false);
 
