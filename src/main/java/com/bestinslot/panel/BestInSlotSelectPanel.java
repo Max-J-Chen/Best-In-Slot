@@ -8,7 +8,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class BestInSlotSelectPanel extends JPanel{
-    public BestInSlotSelectPanel(BestInSlotPanel bestInSlotPanel,String text) {
+    public BestInSlotSelectPanel(BestInSlotPanel bestInSlotPanel, String text) {
         setLayout(new BorderLayout(3, 0));
         setPreferredSize(new Dimension(PluginPanel.PANEL_WIDTH, 23));
         setBackground(ColorScheme.DARK_GRAY_COLOR);
